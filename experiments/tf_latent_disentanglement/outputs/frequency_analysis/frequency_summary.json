@@ -1,0 +1,78 @@
+{
+  "fps": 20.0,
+  "cutoff_hz": 2.0,
+  "layers": {
+    "z": {
+      "D": 16,
+      "mean_low_ratio": 0.7919796109199524,
+      "mean_high_ratio": 0.2080204039812088,
+      "mean_centroid_hz": 1.7177475690841675,
+      "frac_dims_low_dominant": 1.0,
+      "top_slow_dims": [
+        3,
+        10,
+        14
+      ],
+      "top_fast_dims": [
+        4,
+        13,
+        9
+      ],
+      "cutoff_sweep_low_ratio": {
+        "0.5": 0.5880115032196045,
+        "1.0": 0.7085529565811157,
+        "2.0": 0.7848165035247803,
+        "3.0": 0.8394756317138672,
+        "5.0": 0.8900279998779297
+      }
+    },
+    "h": {
+      "D": 2048,
+      "mean_low_ratio": 0.9086151719093323,
+      "mean_high_ratio": 0.09138484299182892,
+      "mean_centroid_hz": 0.9414526224136353,
+      "frac_dims_low_dominant": 1.0,
+      "top_slow_dims": [
+        329,
+        1417,
+        1333
+      ],
+      "top_fast_dims": [
+        1887,
+        144,
+        885
+      ],
+      "cutoff_sweep_low_ratio": {
+        "0.5": 0.6529852151870728,
+        "1.0": 0.8209264874458313,
+        "2.0": 0.9105844497680664,
+        "3.0": 0.948185384273529,
+        "5.0": 0.9727897644042969
+      }
+    }
+  },
+  "action_signal": {
+    "mean_centroid_hz": 0.809813916683197,
+    "mean_low_ratio": 0.9309781789779663,
+    "per_dim_centroid_hz": [
+      0.726,
+      0.768,
+      0.643,
+      0.774,
+      0.819,
+      0.779,
+      1.16
+    ],
+    "note": "If action energy is mostly low-frequency, the 'action=high-freq' premise fails."
+  },
+  "token_frequency": {
+    "z": {
+      "mean_high_ratio": 0.39520034193992615,
+      "high_ratio_std_over_tokens": 0.15324747562408447
+    },
+    "h": {
+      "mean_high_ratio": 0.16382677853107452,
+      "high_ratio_std_over_tokens": 0.039120376110076904
+    }
+  }
+}

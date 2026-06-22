@@ -1,0 +1,39 @@
+{
+  "evidence_tier": "T2-recomb (nonlinear u not projectable)",
+  "u_dim": 16,
+  "tradeoff_curve": {
+    "adv_0.0": {
+      "action_r2": 0.9348974367379248,
+      "action_r2_equal": 0.6047898049093555,
+      "u_to_e_r2": -0.031524417906472646,
+      "suite_acc": 0.2595486111111111,
+      "suite_chance": 0.25
+    },
+    "adv_0.05": {
+      "action_r2": 0.914923226242256,
+      "action_r2_equal": 0.6987544850822848,
+      "u_to_e_r2": 0.014273648070908918,
+      "suite_acc": 0.5989583333333334,
+      "suite_chance": 0.25
+    },
+    "adv_0.1": {
+      "action_r2": 0.8909631804399878,
+      "action_r2_equal": 0.5613221125946396,
+      "u_to_e_r2": 0.017165188693127775,
+      "suite_acc": 0.5243055555555556,
+      "suite_chance": 0.25
+    },
+    "adv_0.2": {
+      "action_r2": 0.862525550855098,
+      "action_r2_equal": 0.34199310085950935,
+      "u_to_e_r2": 0.03147796937106462,
+      "suite_acc": 0.5381944444444444,
+      "suite_chance": 0.25
+    }
+  },
+  "linear_reference": {
+    "cca_d4_action_r2": 0.8936514486880246,
+    "pls_d16_action_r2": 0.9331209902754485
+  },
+  "note": "nonlinear ceiling ~ linear ceiling (action is ~linearly decodable from h); adversary reduces discrete suite leakage but the linear CCA-d4 u is already continuous-leak-free, so the bottleneck adds little. Not on the Outcome-A path."
+}

@@ -1,0 +1,42 @@
+{
+  "method": "Independent multi-agent adversarial re-derivation (3 agents, standalone /tmp python, no action_latent import, same fixed split).",
+  "split_and_methodology_audit": {
+    "leak_found": false,
+    "env_coeff_recon_max_err": 2.43e-06,
+    "key_checks": [
+      "row-index / episode_uid / clip_idx sets pairwise DISJOINT across train(112)/val(24)/test(24); all 160 globally unique",
+      "suite stratification exact: 28/28/28/28 train, 6/6/6/6 val and test",
+      "cached e reconstructs in [train;val] order (err 2.4e-6); reversed order errs 12.4 -> pins ordering",
+      "train-only standardization stats differ materially from full-set (max mean diff 0.365) -> no full-set leakage",
+      "clip-level bootstrap CI width ~0.31 is ~5x the naive frame-level width ~0.06 -> clip-grouping correctly applied and material"
+    ],
+    "verdict": "PASS — no cross-split contamination; e_to_a R2=0.5063 reproduced exactly."
+  },
+  "env_shortcut_stress_test": {
+    "linear_e_r2": 0.5063,
+    "mlp_e_r2": 0.5561,
+    "discrete_scene_onehot_best_r2": -0.1402,
+    "strongest_env_shortcut_r2": 0.5561,
+    "ceiling_r2_reference_linear": 0.9353,
+    "headroom_under_strongest_env": 0.3792,
+    "shortcut_fraction_under_strongest_env": 0.5945,
+    "gate1_would_drop_to_CD_under_strongest_env": false,
+    "verdict": "Headroom is ROBUST. A nonlinear MLP on e gains only +0.05 (0.506->0.556) and plateaus far below the 0.935 ceiling; scene one-hots are negative. ~40% of the action-predictive ceiling lives outside W_env and cannot be recovered from e or scene labels."
+  },
+  "ceiling_and_gain_rederivation": {
+    "h_full_linear_r2": 0.93529,
+    "e_to_a_r2": 0.50629,
+    "gain_over_e_point": 0.429,
+    "gain_ci": [0.2966, 0.6096],
+    "gain_excludes_zero": true,
+    "matches_headline": true,
+    "verdict": "CONFIRMED — gain ~0.43 with CI cleanly excluding 0; test set is 24 clips (the '6/suite' is only the object-subset control)."
+  },
+  "important_caveat_pooling_convention": {
+    "issue": "Headline aggregate R2 pools the 7 action dims on RAW (unstandardized) actions, i.e. variance-weighted. High-variance dims (x,y,z,gripper) dominate; low-variance rotation dims (roll/pitch, std ~0.04-0.06) contribute little.",
+    "equal_weight_alternative": {"e_to_a": 0.463, "h_full_linear": 0.863},
+    "impact": "Both conventions defensible; per-dim R2 is identical (scale-invariant). The qualitative conclusion (large headroom, gain CI excludes 0, gate stays not-C/D) is unchanged. Most non-env headroom sits in the weak rotation dims — to watch in later phases.",
+    "action_item": "Phase 2+ should ALSO report equal-weight (per-dim-standardized) aggregate R2 alongside the variance-weighted one."
+  },
+  "overall": "All three independent re-derivations reproduce the M1 headline and find NO leakage. GATE-1 decisions (not-C/D; primary feature h_res) survive a stronger nonlinear env baseline. One transparency caveat: variance-weighted pooling inflates absolute magnitudes; report both conventions going forward."
+}

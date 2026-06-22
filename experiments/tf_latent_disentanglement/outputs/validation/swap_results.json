@@ -1,0 +1,13 @@
+{
+  "n_pairs": 6,
+  "z_appearance_transfer": {
+    "mse_swap_to_A_mean": 80.64126459757487,
+    "mse_swap_to_B_mean": 4883.8051350911455,
+    "note": "lower-to-A => swap keeps A's appearance (env subspace carries scene)"
+  },
+  "h_action_readout_swap": {
+    "dist_swap_to_A_mean": 0.0033077014377340674,
+    "dist_swap_to_B_mean": 0.29687842230002087,
+    "note": "lower-to-B => predicted action follows B's action subspace"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "phase_reached": "phase8",
+  "gates_passed": [
+    "GATE-0",
+    "GATE-1",
+    "GATE-2"
+  ],
+  "interface": "OK",
+  "verdict": "B",
+  "verdict_text": "B \u2014 Clean, compact, LINEAR & projectable action latent IS recoverable (action-predictive with large gain over e, near-zero env leakage, action-specific under deconfounding & recombination), BUT it is NOT a causal bottleneck of the frozen head: the tier-1 intervention FAILS (action is redundantly distributed across h). Causal support limited to trained-decoder recombination (T2). Not A because no T1."
+}

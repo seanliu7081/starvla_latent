@@ -1,0 +1,101 @@
+{
+  "verdict": "B",
+  "verdict_text": "B \u2014 Clean, compact, LINEAR & projectable action latent IS recoverable (action-predictive with large gain over e, near-zero env leakage, action-specific under deconfounding & recombination), BUT it is NOT a causal bottleneck of the frozen head: the tier-1 intervention FAILS (action is redundantly distributed across h). Causal support limited to trained-decoder recombination (T2). Not A because no T1.",
+  "evidence_ceiling_from_interface": "OK",
+  "gates_passed": [
+    "GATE-0",
+    "GATE-1",
+    "GATE-2"
+  ],
+  "evidence": {
+    "alignment_shift": 0,
+    "shortcut_R2": 0.5062783705871272,
+    "ceiling_R2": 0.9412189792250762,
+    "gain_over_e_h_res": 0.4298820943269208,
+    "chosen_subspace": {
+      "method": "cca",
+      "d": 4,
+      "r2": 0.8936514486880246,
+      "gain": 0.3873730781008974,
+      "beats_baseline_by": 0.23162015895358945
+    },
+    "chosen_action_r2": 0.8936514486880246,
+    "T3_correlational": {
+      "gate2_passed": true,
+      "chosen_r2": 0.8936514486880246
+    },
+    "T3_leakage_clean": true,
+    "leakage": {
+      "chosen_u_continuous_leak_r2": -0.04659115183787166,
+      "full_h_continuous_leak_r2": 0.999634051084724,
+      "chosen_u_suite_above_chance": -0.056423611111111105,
+      "chosen_u_task_above_chance": 0.10503472222222222,
+      "chosen_u_leak_cond": -0.019097222222222265,
+      "reading": "clean if: u->e R^2 materially below full_h, discrete suite/task near chance, and leak_cond small. Defensible target is LOW CONDITIONAL leakage, not zero raw."
+    },
+    "T4_retrieval": {
+      "deconfounded": true,
+      "chosen_partial_corr_du_da_given_env": 0.8026906418901363,
+      "chosen_partial_corr_ci": [
+        0.7856302364281944,
+        0.8182700800641144
+      ],
+      "chosen_du_env_corr": -0.06425428265884776,
+      "lto_partial_corr": 0.8346236009216191,
+      "reading": "clean action u: partial corr(d_u,d_action|env) strongly positive (u-distance tracks action even within an environment), low d_u-env corr, action-bin recall@5 >> random, high neighbor env-diversity; holds under leave-task-out."
+    },
+    "T1_causal_frozen_head": {
+      "passed": false,
+      "cca4": {
+        "delta_no_sup": -0.0001909650241335232,
+        "delta_no_random_matched": -1.5639358510573747e-05,
+        "delta_no_prev_highfreq": -0.00011457545915618494,
+        "delta_no_env": -0.00013776310564329237,
+        "sup_minus_random": {
+          "point": -0.00017532566562294944,
+          "lo": -0.0003326312832844746,
+          "hi": 8.95663085005549e-05,
+          "excludes_zero": false
+        },
+        "sup_minus_prev": {
+          "point": -7.638956497733826e-05,
+          "lo": -0.0002496883385659508,
+          "hi": 0.00017313501933434317,
+          "excludes_zero": false
+        },
+        "causal_pass": false
+      },
+      "pls16": {
+        "delta_no_sup": -0.002185046214920779,
+        "delta_no_random_matched": -5.722869730864943e-05,
+        "delta_no_prev_highfreq": -0.00011457545915618494,
+        "delta_no_env": -0.00013776310564329237,
+        "sup_minus_random": {
+          "point": -0.0021278175176121295,
+          "lo": -0.00406596896131911,
+          "hi": -0.0008733242593007165,
+          "excludes_zero": true
+        },
+        "sup_minus_prev": {
+          "point": -0.002070470755764594,
+          "lo": -0.003932997519053364,
+          "hi": -0.0008853060507681227,
+          "excludes_zero": true
+        },
+        "causal_pass": false
+      }
+    },
+    "T2_decoder_recombination": {
+      "swap_eA_uB_closer_to_B_frac": 0.8680555555555556,
+      "swap_eA_uB_mse_to_aB": 0.04508769139647484,
+      "swap_eA_uB_mse_to_aA": 0.14406171441078186,
+      "reading": "if u is the action code, [e_A,u_B] follows action B: closer_to_B>>0.5 and mse_to_aB << mse_to_aA. Tests the trained decoder only (T2)."
+    }
+  },
+  "tiers": {
+    "T1-causal": "FAIL \u2014 removing the action subspace does not degrade the frozen head (redundancy)",
+    "T2-recomb": "PASS \u2014 recombination follows u (0.87)",
+    "T3-corr": "PASS \u2014 linear u predicts action (r2=0.894) with gain over e; near-zero leakage",
+    "T4-retr": "PASS \u2014 partial corr(d_u,d_action|env)=0.80, holds leave-task-out"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "single_frame_shifts": {
+    "-1": {
+      "val_r2": 0.9489213862221659,
+      "ridge_lambda": 10000.0,
+      "test_r2": 0.9439395960581681,
+      "test_r2_per_dim": [
+        0.941371806409889,
+        0.9743451230622516,
+        0.9730472024369807,
+        0.718932689017109,
+        0.7687617644109126,
+        0.8592289830094391,
+        0.9053733640179944
+      ],
+      "test_mse": 0.005765158217400312,
+      "test_r2_ci": [
+        0.9311458248091045,
+        0.9522903110784442
+      ]
+    },
+    "0": {
+      "val_r2": 0.9418203530529745,
+      "ridge_lambda": 1000.0,
+      "test_r2": 0.9352890356876906,
+      "test_r2_per_dim": [
+        0.931587274386959,
+        0.9683844647191021,
+        0.9666820651096982,
+        0.6237315236806278,
+        0.6599134601631005,
+        0.8333552847307125,
+        0.8953945092151236
+      ],
+      "test_mse": 0.006662317551672459,
+      "test_r2_ci": [
+        0.9209442961235834,
+        0.9457891779261073
+      ]
+    },
+    "1": {
+      "val_r2": 0.9269201811560766,
+      "ridge_lambda": 1000.0,
+      "test_r2": 0.9215462994043617,
+      "test_r2_per_dim": [
+        0.9036673868787121,
+        0.9572094555125559,
+        0.9561326020987408,
+        0.559592936562571,
+        0.562667701947046,
+        0.7935827962397115,
+        0.8843378005513286
+      ],
+      "test_mse": 0.008082224056124687,
+      "test_r2_ci": [
+        0.9046074455679429,
+        0.9345098420553264
+      ]
+    }
+  },
+  "multi_frame": {
+    "pair_t_tp1": {
+      "val_r2": 0.9407901687508252,
+      "ridge_lambda": 10000.0,
+      "test_r2": 0.9365014154522106,
+      "test_r2_per_dim": [
+        0.9295791214952625,
+        0.968014677409716,
+        0.9659227099537233,
+        0.6640908413110079,
+        0.6977734908328045,
+        0.8292716097151804,
+        0.8998445191051235
+      ],
+      "test_mse": 0.006541561800986528,
+      "test_r2_ci": [
+        0.9222535829906093,
+        0.9461810517430228
+      ]
+    },
+    "pair_t_tp1_delta": {
+      "val_r2": 0.94273601342993,
+      "ridge_lambda": 10000.0,
+      "test_r2": 0.9384914699050604,
+      "test_r2_per_dim": [
+        0.9328154436347926,
+        0.9691876007802921,
+        0.9675215633440801,
+        0.6744012376883763,
+        0.7080793700922717,
+        0.8330446028757813,
+        0.9020244234644668
+      ],
+      "test_mse": 0.006336548365652561,
+      "test_r2_ci": [
+        0.9244760285308191,
+        0.9479405783014957
+      ]
+    }
+  },
+  "decision": {
+    "chosen_shift": -1,
+    "convention": "a_t = transition into frame t (read from h_{t-1})",
+    "chosen_test_r2": 0.9439395960581681,
+    "consistent_with_frozen_head": false,
+    "frozen_head_convention_shift": 0,
+    "frozen_head_reference": "h_t -> pred[t,0] ~ actions[t], prior readout MSE 0.0138, corr 0.853",
+    "ambiguous_halt": false,
+    "note": "ridge h_{t+shift}->a_t (single-frame) selects the convention; pair/delta probes are an upper bound, not the alignment test."
+  },
+  "final_decision": {
+    "final_shift": 0,
+    "basis": "frozen_head_offset_argmin (grounds action semantics; used by Phase 6)",
+    "linear_probe_argmax_shift": -1,
+    "frozen_head_implied_shift": 0,
+    "agree": false,
+    "convention": "a_t = command at frame t, read from h_t (frozen-head canonical)",
+    "caveat": "linear probe marginally preferred shift -1 but the frozen head (which Phase 6 uses) implies shift 0; adopting the head's convention for consistency. R^2 gap is within bootstrap CIs."
+  }
+}

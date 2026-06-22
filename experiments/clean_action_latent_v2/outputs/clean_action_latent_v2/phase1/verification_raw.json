@@ -1,0 +1,80 @@
+{
+  "summary": "Adversarially re-derive the Milestone-1 confound-gate headline numbers with independent code: split-leakage audit, stronger/nonlinear env-shortcut stress test, and ceiling+gain re-derivation.",
+  "agentCount": 3,
+  "logs": [],
+  "result": {
+    "audit": {
+      "leak_found": false,
+      "env_coeff_recon_max_err": 0.000002430563984745504,
+      "checks": [
+        {
+          "name": "A.1 split sizes sum to 160",
+          "passed": true,
+          "detail": "train=112, val=24, test=24, sum=160. Row-index union covers exactly {0..159}."
+        },
+        {
+          "name": "A.1 row-index disjointness",
+          "passed": true,
+          "detail": "Pairwise row-index overlaps all 0 (tr&va=0, tr&te=0, va&te=0)."
+        },
+        {
+          "name": "A.1 episode_uid disjoint across splits",
+          "passed": true,
+          "detail": "euid set sizes 112/24/24, all pairwise overlaps=0. All 160 episode_uids are globally unique, so no episode crosses splits."
+        },
+        {
+          "name": "A.1 clip_idx disjoint across splits",
+          "passed": true,
+          "detail": "clip_idx set sizes 112/24/24, all pairwise overlaps=0. All 160 clip_idx globally unique; no clip/frame shared."
+        },
+        {
+          "name": "A.1 stratified-by-suite balance sane",
+          "passed": true,
+          "detail": "Perfect stratification: train {0:28,1:28,2:28,3:28}, val {0:6,1:6,2:6,3:6}, test {0:6,1:6,2:6,3:6}. 4 suites balanced exactly per split."
+        },
+        {
+          "name": "A.2 cached e reconstruction in [train;val] order",
+          "passed": true,
+          "detail": "e_recon = einsum('ntd,dk->ntk', (h-mean)/std, W_env) vs stored e: max abs err = 2.43e-6 (~0). Reversed [val;train] order gives 12.43, confirming the [train;val] ordering is correct."
+        },
+        {
+          "name": "A.3 train-only standardization stats differ from full-set",
+          "passed": true,
+          "detail": "On e-features: max|train_mean - full_mean|=0.365, max|train_std - full_std|=0.232. On raw actions: mean diff up to 0.0356, std diff up to 0.0114. Train-only stats are genuinely distinct, confirming no full-set leakage into standardization."
+        },
+        {
+          "name": "A.4 clip bootstrap CI wider than frame bootstrap CI (e->a R^2)",
+          "passed": true,
+          "detail": "Matched pipeline (raw-target+intercept ridge, lam=1000): CLIP CI=[0.3233,0.6331] width=0.3097; FRAME CI=[0.4748,0.5368] width=0.0620. Clip CI is 4.99x wider, confirming clip-grouping inflates variance correctly. Clip CI closely matches their reported e_to_a CI [0.3341,0.6377] width=0.3036."
+        },
+        {
+          "name": "Headline e_to_a R^2 reproduced exactly",
+          "passed": true,
+          "detail": "Reproduced their recipe: train-only-standardized e features, ridge WITH intercept on RAW (unstandardized) action targets, val-selected lambda=1000. test_r2=0.506288 (theirs 0.506278), test_mse=0.05083 (theirs 0.0508311), val_r2=0.50485 (theirs 0.504853), per-dim matches to 4-5 decimals. NOT inflated. Note: if action targets are standardized instead, pooled aggregate is 0.4627; their higher 0.5063 is because pooling raw-scale dims variance-weights them, a legitimate (not leaky) choice. Per-dim R^2 is identical either way since it is scale-invariant."
+        }
+      ],
+      "verdict": "PASS - No cross-split contamination found. All four Task A checks pass on independent re-derivation. (1) Row-index, episode_uid, and clip_idx sets are pairwise disjoint across train(112)/val(24)/test(24), summing to 160; in fact all 160 episode_uids and clip_idxs are globally unique, and suite stratification is exactly balanced (28/28/28/28 train, 6/6/6/6 val and test). (2) Cached e reconstructs from W_env^T((h-mean)/std) in [train;val] order with max abs err 2.43e-6 (reversed order errs 12.4, pinning the ordering). (3) Train-only standardization stats differ materially from full-set stats (e-mean up to 0.365), confirming no full-set leakage. (4) Clip-level bootstrap CI (width ~0.31) is ~5x wider than naive frame-level (~0.06) and matches the reported e_to_a CI, confirming clip-grouping was correctly applied. I also fully reproduced the headline e_to_a test_r2=0.5063 (mse, val_r2, and per-dim all match) once I matched their exact recipe (raw-action targets + intercept ridge, lambda=1000). The number is faithful to their pipeline and not inflated by leakage. Minor methodological note (not a leak): the aggregate uses raw-scale (variance-weighted) pooling of the 7 action dims; standardizing targets would instead give pooled R^2=0.4627. Both are defensible; per-dim R^2 is identical. No leak_found."
+    },
+    "env": {
+      "linear_e_r2": 0.5063,
+      "mlp_e_r2": 0.5561,
+      "discrete_scene_onehot_r2": -0.1402,
+      "strongest_env_shortcut_r2": 0.5561,
+      "ceiling_r2_reference": 0.9353,
+      "headroom_under_strongest_env": 0.3792,
+      "shortcut_fraction_under_strongest_env": 0.5945,
+      "gate1_would_drop_to_CD": false,
+      "detail": "VERDICT: Headroom is ROBUST to a stronger env model. The env shortcut does NOT close the gap to the ceiling. Independent re-derivation (standalone /tmp scripts, no action_latent import, raw torch ridge + torch MLP).\n\nREPRODUCTION CHECK (all exact): I reconstructed e = ((concat[train;val] h - mean)/std) @ W_env and it matched the cached e to 0.0 max-abs error. Linear ridge e->a TEST R2 = 0.5063 (theirs 0.5063); h_full linear ceiling = 0.9353 (theirs 0.9353). Per-dim e->a R2 came out bit-identical to their reported [0.5977,0.6304,0.5352,0.3734,0.2088,0.5341,0.3727], confirming the regression is the same fit.\n\nPOOLING CONVENTION CAVEAT (important): their aggregate R2 pools the 7 action dims on RAW (unstandardized) actions, i.e. variance-weighted. If you instead pool on per-dim standardized actions (equal weight), the same fits give e->a=0.463 and h_full=0.863. I report numbers under THEIR convention (raw) so they are comparable; the qualitative conclusion is identical under either convention.\n\nSTRESS TEST (raw-action pooling, fixed split test_idx, alignment shift 0, train-only standardization, val-selected lambda/early-stop):\n(a) linear ridge e->a: 0.5063.\n(b) MLP e->a (2x512 hidden, ReLU, Adam, weight-decay sweep {1e-3,1e-4,3e-4,1e-5} x seeds {0,1}, early-stop on raw val R2): best val 0.5745 -> TEST 0.5561. So nonlinearity DOES help (+0.050 over linear) but it plateaus far below the ceiling; it does not 'jump toward' 0.935.\n(c) discrete scene one-hots -> a: suite(4)=-0.164, task_global(40)=-0.322, suite+task(44)=-0.140; best = -0.140 (NEGATIVE on test). Scene identity alone is useless for predicting actions on held-out clips (per-clip action trajectories within a task vary a lot, so clip-mean-by-class generalizes worse than the global mean). Consistent with their task_to_a=-0.113.\n\nAGGREGATION: strongest_env_shortcut = max(0.5063, 0.5561, -0.140) = 0.5561 (the MLP). ceiling = 0.9353. headroom = 0.3792. shortcut_fraction = 0.5945, well under the 0.85 gate -> gate1_would_drop_to_CD = FALSE. Their own gate (shortcut_fraction_of_ceiling 0.538 using linear-only) is even more conservative; with the stronger MLP env model the fraction rises only to 0.595, still nowhere near 0.85.\n\nSKEPTIC'S BOTTOM LINE: The headline 'big headroom over the env shortcut' survives a stronger env baseline. ~40% of the action-predictive ceiling lives outside the W_env subspace and cannot be recovered by a nonlinear map from e or by scene one-hots. The only honest qualifier is that the MLP narrows headroom modestly (~5 R2 points), and that all the impressive R2 magnitudes ride on the variance-weighted raw-pooling convention - dims 4-5 (0.21-0.37 for e) are the weakest and are exactly where most non-env headroom sits. No leakage found: split has no group leak, standardization is train-only, e is genuinely the frozen env projection."
+    },
+    "gain": {
+      "h_full_linear_r2": 0.93529,
+      "e_to_a_r2": 0.50629,
+      "gain_over_e_point": 0.429,
+      "gain_ci_lo": 0.29657,
+      "gain_ci_hi": 0.60957,
+      "gain_excludes_zero": true,
+      "matches_my_numbers": true,
+      "notes": "Fully independent re-derivation in /tmp (no action_latent import). CONFIRMED the headline. Method: cache = concat[train(120);val(40)] h_pooled/actions in that order; verified subspace e == W_env^T((h-mean)/std) to max abs err 0.0, confirming [train;val] ordering and the standardization. Used the FIXED split (train=112, val=24, test=24; the test set has 24 clips, NOT 6 -- the '6 per suite' in the JSON is only the object-subset control). Alignment shift 0, all 48 frames. h_full standardized with TRAIN-ONLY mean/std; e standardized with TRAIN-ONLY mean/std. Ridge closed-form with intercept, lambda picked on val from {0.1..1e5}; both h_full and e selected lambda=1000 (matches JSON). Aggregate R2 pooled over 7 dims.\n\nResults: R2(h_full linear)=0.93529 (JSON 0.93529, diff 0.0000), val_r2=0.94182 (JSON 0.94182). R2(e->a)=0.50629 (JSON shortcut_R2 0.50628, diff 0.0000), val_r2=0.50485 (JSON 0.50485). Per-dim R2 for both e and h match JSON to within 5e-5. GAIN(h_full_linear - e)=0.42900 (JSON gain_over_e.h_full_linear=0.42901, diff <1e-4).\n\nPAIRED clip-level bootstrap (B=5000, resample the same 24 test clips, recompute BOTH r2 and take difference per resample): point 0.42900, mean 0.43576, 95% CI [0.2966, 0.6096], excludes 0 = TRUE. JSON reports [0.3010, 0.6003]; difference is only bootstrap RNG/B and is fully consistent (same conclusion, ~0.005-0.01 endpoint wobble).\n\nHeadline framing note: JSON 'ceiling~0.94 / gain~0.43' refers to the MLP ceiling (0.9412 / gain 0.4349, ceiling_source='mlp'). Task C asked for the RIDGE (linear) ceiling, which I reproduce at 0.9353 / gain 0.4290. Both the linear and MLP figures are within 0.03 of the stated ~0.94/~0.43, so they match either way.\n\nLeakage audit: clip-grouped split verified -- zero episode_uid overlap across train/val/test, zero index overlap, 160 clips total. Lambda chosen on val (no test peeking), train-only standardization. Nothing looks leaky or inflated; the e->a shortcut at 0.506 is genuinely well below the 0.935 ceiling, so the ~0.43 gain is real and the CI cleanly excludes 0.\n\nFiles: rederivation script /tmp/rederive.py; data /home/haotian/code/starVLA/experiments/tf_latent_disentanglement/outputs/latent_cache/{train,val}.pt and .../subspaces/h_subspace_decomposition.pt; split .../phase0/split_metadata.json; checked results .../phase1/confound_gate.json."
+    }
+  }
+}

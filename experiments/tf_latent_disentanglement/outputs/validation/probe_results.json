@@ -1,0 +1,205 @@
+{
+  "layers": {
+    "z": {
+      "scene_suite_from_e": {
+        "task": "classification",
+        "n_classes": 4,
+        "n": 7680,
+        "train_acc": 0.5087890625,
+        "val_acc": 0.5325520634651184,
+        "majority_baseline": 0.4375,
+        "val_acc_above_chance": 0.09505206346511841
+      },
+      "scene_suite_from_u": {
+        "task": "classification",
+        "n_classes": 4,
+        "n": 7520,
+        "train_acc": 0.25698137283325195,
+        "val_acc": 0.19680851697921753,
+        "majority_baseline": 0.4375,
+        "val_acc_above_chance": -0.24069148302078247
+      },
+      "task_from_e": {
+        "task": "classification",
+        "n_classes": 40,
+        "n": 7680,
+        "train_acc": 0.1901041716337204,
+        "val_acc": 0.0807291641831398,
+        "majority_baseline": 0.125,
+        "val_acc_above_chance": -0.0442708358168602
+      },
+      "task_from_u": {
+        "task": "classification",
+        "n_classes": 40,
+        "n": 7520,
+        "train_acc": 0.025598404929041862,
+        "val_acc": 0.029255319386720657,
+        "majority_baseline": 0.125,
+        "val_acc_above_chance": -0.09574468061327934
+      },
+      "object_from_e": {
+        "task": "classification",
+        "n_classes": 10,
+        "n": 1920,
+        "train_acc": 0.4140625,
+        "val_acc": 0.3255208432674408,
+        "majority_baseline": 0.25,
+        "val_acc_above_chance": 0.0755208432674408
+      },
+      "object_from_u": {
+        "task": "classification",
+        "n_classes": 10,
+        "n": 1880,
+        "train_acc": 0.11901595443487167,
+        "val_acc": 0.125,
+        "majority_baseline": 0.25,
+        "val_acc_above_chance": -0.125
+      },
+      "action_from_u": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.1670743227005005,
+        "val_r2": -0.10365521907806396
+      },
+      "action_from_e_full": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.1075897216796875,
+        "val_r2": -0.04740297794342041
+      },
+      "action_from_e_matched": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.1548911333084106,
+        "val_r2": -0.09213399887084961
+      },
+      "action_from_full_delta": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.0773839950561523,
+        "val_r2": -0.01883864402770996
+      },
+      "action_from_full_state": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.0613141059875488,
+        "val_r2": -0.003641963005065918
+      },
+      "between_within_ratio": {
+        "env_mean": 116.61885070800781,
+        "action_mean": 0.004794406238943338
+      },
+      "_disentanglement": {
+        "scene_e_minus_u_acc": 0.3357435464859009,
+        "task_e_minus_u_acc": 0.051473844796419144,
+        "action_u_minus_e_matched_r2": -0.011521220207214355
+      }
+    },
+    "h": {
+      "scene_suite_from_e": {
+        "task": "classification",
+        "n_classes": 4,
+        "n": 7680,
+        "train_acc": 1.0,
+        "val_acc": 1.0,
+        "majority_baseline": 0.4375,
+        "val_acc_above_chance": 0.5625
+      },
+      "scene_suite_from_u": {
+        "task": "classification",
+        "n_classes": 4,
+        "n": 7520,
+        "train_acc": 0.2696143686771393,
+        "val_acc": 0.16821809113025665,
+        "majority_baseline": 0.4375,
+        "val_acc_above_chance": -0.26928190886974335
+      },
+      "task_from_e": {
+        "task": "classification",
+        "n_classes": 40,
+        "n": 7680,
+        "train_acc": 1.0,
+        "val_acc": 0.9791666865348816,
+        "majority_baseline": 0.125,
+        "val_acc_above_chance": 0.8541666865348816
+      },
+      "task_from_u": {
+        "task": "classification",
+        "n_classes": 40,
+        "n": 7520,
+        "train_acc": 0.04471409693360329,
+        "val_acc": 0.02460106462240219,
+        "majority_baseline": 0.125,
+        "val_acc_above_chance": -0.10039893537759781
+      },
+      "object_from_e": {
+        "task": "classification",
+        "n_classes": 10,
+        "n": 1920,
+        "train_acc": 1.0,
+        "val_acc": 1.0,
+        "majority_baseline": 0.25,
+        "val_acc_above_chance": 0.75
+      },
+      "object_from_u": {
+        "task": "classification",
+        "n_classes": 10,
+        "n": 1880,
+        "train_acc": 0.17154255509376526,
+        "val_acc": 0.11170212924480438,
+        "majority_baseline": 0.25,
+        "val_acc_above_chance": -0.13829787075519562
+      },
+      "action_from_u": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.0879451036453247,
+        "val_r2": -0.028825879096984863
+      },
+      "action_from_e_full": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 0.6280734539031982,
+        "val_r2": 0.4060562252998352
+      },
+      "action_from_e_matched": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.0028222799301147,
+        "val_r2": 0.051671385765075684
+      },
+      "action_from_full_delta": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 0.920678973197937,
+        "val_r2": 0.12935101985931396
+      },
+      "action_from_full_state": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 0.1707853227853775,
+        "val_r2": 0.8384951949119568
+      },
+      "between_within_ratio": {
+        "env_mean": 53.325645446777344,
+        "action_mean": 0.002393261529505253
+      },
+      "_disentanglement": {
+        "scene_e_minus_u_acc": 0.8317819088697433,
+        "task_e_minus_u_acc": 0.9545656219124794,
+        "action_u_minus_e_matched_r2": -0.08049726486206055
+      }
+    }
+  },
+  "notes": "frame-level features, clip-grouped splits"
+}
