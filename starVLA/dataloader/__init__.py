@@ -49,12 +49,15 @@ def build_dataloader(cfg, dataset_py="lerobot_datasets_oxe"): # TODO now here on
             vla_dataset,
             batch_size=cfg.datasets.vla_data.per_device_batch_size,
             collate_fn=collate_fn,
-            num_workers=16,
+            # Env-overridable (default = original 16/4) so a box with few cores or
+            # heavy per-decode threads (e.g. AV1/dav1d) can cut concurrency and avoid
+            # ENOMEM, without changing default behavior anywhere else.
+            num_workers=int(os.environ.get("VLA_NUM_WORKERS", 16)),
             pin_memory=True,
             persistent_workers=True,
-            prefetch_factor=4,
+            prefetch_factor=int(os.environ.get("VLA_PREFETCH_FACTOR", 4)),
             # shuffle=True
-        )        
+        )
         if dist.get_rank() == 0: 
             
             output_dir = Path(cfg.output_dir)

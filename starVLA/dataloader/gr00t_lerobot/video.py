@@ -246,7 +246,19 @@ def get_frames_by_timestamps(
         reader = None
         try:
             reader = torchvision.io.VideoReader(video_path, "video")
-            
+            # Cap the (AV1/dav1d) decoder threads BEFORE the codec opens (torchvision
+            # opens it lazily on the first frame). Default thread_count=0 spawns a
+            # ~per-core thread pool (e.g. 104) per video, which blows up committed VM
+            # and triggers `[Errno 12] Cannot allocate memory` at CodecContext.open
+            # with many dataloader workers. 1 thread is plenty for these frames and
+            # produces byte-identical output.
+            try:
+                _cc = reader.container.streams.video[0].codec_context
+                _cc.thread_count = 1
+                _cc.thread_type = "NONE"
+            except Exception:
+                pass
+
             for target_ts in timestamps:
                 # Reset reader state
                 reader.seek(target_ts, keyframes_only=True)
@@ -333,6 +345,13 @@ def get_all_frames(
         # set backend and reader
         torchvision.set_video_backend("pyav")
         reader = torchvision.io.VideoReader(video_path, "video")
+        # Cap decoder threads before lazy codec open (see note in get_frames_by_timestamps).
+        try:
+            _cc = reader.container.streams.video[0].codec_context
+            _cc.thread_count = 1
+            _cc.thread_type = "NONE"
+        except Exception:
+            pass
         frames = []
         for frame in reader:
             frames.append(frame["data"].numpy())
