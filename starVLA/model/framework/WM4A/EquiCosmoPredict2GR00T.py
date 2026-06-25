@@ -34,6 +34,8 @@ PROVENANCE (vendored methods)
 ----------------------------------------------------------------------------------
 """
 
+import os
+
 import torch
 
 from starVLA.model.framework.WM4A.CosmoPredict2GR00T import CosmoPredict2_GR00T
@@ -211,6 +213,20 @@ class EquiCosmoPredict2_GR00T(CosmoPredict2_GR00T):
     def __init__(self, config=None, **kwargs):
         super().__init__(config=config, **kwargs)  # builds backbone + standard head
         self.action_model = EquiFlowmatchingActionHead(full_config=self.config)
+
+        # --- Optional: activation checkpointing on the Cosmos DiT (opt-in via env) ---
+        # FULL fine-tune of the 2B DiT with native attention (flash_attn is unavailable
+        # in this env) blows past 80 GB. diffusers gradient checkpointing trades ~25%
+        # compute for a large activation-memory cut, and is EXACT (it recomputes
+        # activations — it does NOT change the loss/gradients/results). Default-off so
+        # behavior is byte-for-byte unchanged unless EQUI_GRAD_CKPT=1 is set; engages
+        # only during training (skipped automatically under inference_mode at predict).
+        if os.environ.get("EQUI_GRAD_CKPT", "0") == "1":
+            try:
+                self.backbone.transformer.enable_gradient_checkpointing()
+                print("[EquiCosmoPredict2GR00T] gradient checkpointing ENABLED on Cosmos DiT")
+            except Exception as e:  # pragma: no cover - best effort
+                print(f"[EquiCosmoPredict2GR00T] gradient checkpointing enable failed: {e}")
 
 
 if __name__ == "__main__":
