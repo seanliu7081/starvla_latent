@@ -52,15 +52,15 @@
       "pls16": null
     },
     "T2_decoder_recombination": {
-      "swap_eA_uB_closer_to_B_frac": 0.8828125,
-      "swap_eA_uB_mse_to_aB": 0.04432878643274307,
-      "swap_eA_uB_mse_to_aA": 0.15298467874526978,
+      "swap_eA_uB_closer_to_B_frac": 0.8732638888888888,
+      "swap_eA_uB_mse_to_aB": 0.044307641685009,
+      "swap_eA_uB_mse_to_aA": 0.15051472187042236,
       "reading": "if u is the action code, [e_A,u_B] follows action B: closer_to_B>>0.5 and mse_to_aB << mse_to_aA. Tests the trained decoder only (T2)."
     }
   },
   "tiers": {
     "T1-causal": "UNAVAILABLE \u2014 frozen-head interface DEGRADED (stochastic readout); projective tier-1 intervention not run",
-    "T2-recomb": "PASS \u2014 recombination follows u (0.88)",
+    "T2-recomb": "PASS \u2014 recombination follows u (0.87)",
     "T3-corr": "PASS \u2014 linear u predicts action (r2=0.889) with gain over e; near-zero leakage",
     "T4-retr": "PASS \u2014 partial corr(d_u,d_action|env)=0.80, holds leave-task-out"
   }
