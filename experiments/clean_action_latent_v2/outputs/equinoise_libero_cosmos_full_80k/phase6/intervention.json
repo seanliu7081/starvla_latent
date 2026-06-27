@@ -1,0 +1,13 @@
+{
+  "interface": "DEGRADED",
+  "mode": "skipped_6A_ran_6B",
+  "any_causal_pass": false,
+  "evidence_tier": "T2-recomb (interface-degraded fallback)",
+  "note": "interface != OK -> projective tier-1 (6A) unavailable; ran tier-2 decoder-recombination (6B) as the Phase-0-prescribed fallback. T1 cannot be established for this checkpoint (caps verdict at B/C).",
+  "phase6B_decoder_recombination_T2": {
+    "swap_eA_uB_closer_to_B_frac": 0.8828125,
+    "swap_eA_uB_mse_to_aB": 0.04432878643274307,
+    "swap_eA_uB_mse_to_aA": 0.15298467874526978,
+    "reading": "if u is the action code, [e_A,u_B] follows action B: closer_to_B>>0.5 and mse_to_aB << mse_to_aA. Tests the trained decoder only (T2)."
+  }
+}

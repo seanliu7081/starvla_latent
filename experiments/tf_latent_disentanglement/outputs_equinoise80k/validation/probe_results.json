@@ -1,0 +1,205 @@
+{
+  "layers": {
+    "z": {
+      "scene_suite_from_e": {
+        "task": "classification",
+        "n_classes": 4,
+        "n": 7680,
+        "train_acc": 0.6298828125,
+        "val_acc": 0.5240885615348816,
+        "majority_baseline": 0.34375,
+        "val_acc_above_chance": 0.1803385615348816
+      },
+      "scene_suite_from_u": {
+        "task": "classification",
+        "n_classes": 4,
+        "n": 7520,
+        "train_acc": 0.24700798094272614,
+        "val_acc": 0.22473403811454773,
+        "majority_baseline": 0.34375,
+        "val_acc_above_chance": -0.11901596188545227
+      },
+      "task_from_e": {
+        "task": "classification",
+        "n_classes": 40,
+        "n": 7680,
+        "train_acc": 0.16357421875,
+        "val_acc": 0.1217447891831398,
+        "majority_baseline": 0.09375,
+        "val_acc_above_chance": 0.0279947891831398
+      },
+      "task_from_u": {
+        "task": "classification",
+        "n_classes": 40,
+        "n": 7520,
+        "train_acc": 0.03241356462240219,
+        "val_acc": 0.009973403997719288,
+        "majority_baseline": 0.09375,
+        "val_acc_above_chance": -0.08377659600228071
+      },
+      "object_from_e": {
+        "task": "classification",
+        "n_classes": 10,
+        "n": 1920,
+        "train_acc": 0.40234375,
+        "val_acc": 0.2135416716337204,
+        "majority_baseline": 0.375,
+        "val_acc_above_chance": -0.1614583283662796
+      },
+      "object_from_u": {
+        "task": "classification",
+        "n_classes": 10,
+        "n": 1880,
+        "train_acc": 0.11901595443487167,
+        "val_acc": 0.06117021292448044,
+        "majority_baseline": 0.375,
+        "val_acc_above_chance": -0.31382978707551956
+      },
+      "action_from_u": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.3221369981765747,
+        "val_r2": -0.1232447624206543
+      },
+      "action_from_e_full": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.2586171627044678,
+        "val_r2": -0.06928038597106934
+      },
+      "action_from_e_matched": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.3306100368499756,
+        "val_r2": -0.13044309616088867
+      },
+      "action_from_full_delta": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.1943950653076172,
+        "val_r2": -0.014719367027282715
+      },
+      "action_from_full_state": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.1681487560272217,
+        "val_r2": 0.007578730583190918
+      },
+      "between_within_ratio": {
+        "env_mean": 116.5320816040039,
+        "action_mean": 0.004793311003595591
+      },
+      "_disentanglement": {
+        "scene_e_minus_u_acc": 0.29935452342033386,
+        "task_e_minus_u_acc": 0.11177138518542051,
+        "action_u_minus_e_matched_r2": 0.007198333740234375
+      }
+    },
+    "h": {
+      "scene_suite_from_e": {
+        "task": "classification",
+        "n_classes": 4,
+        "n": 7680,
+        "train_acc": 1.0,
+        "val_acc": 0.9915364384651184,
+        "majority_baseline": 0.34375,
+        "val_acc_above_chance": 0.6477864384651184
+      },
+      "scene_suite_from_u": {
+        "task": "classification",
+        "n_classes": 4,
+        "n": 7520,
+        "train_acc": 0.2661236822605133,
+        "val_acc": 0.1768617033958435,
+        "majority_baseline": 0.34375,
+        "val_acc_above_chance": -0.1668882966041565
+      },
+      "task_from_e": {
+        "task": "classification",
+        "n_classes": 40,
+        "n": 7680,
+        "train_acc": 1.0,
+        "val_acc": 0.939453125,
+        "majority_baseline": 0.09375,
+        "val_acc_above_chance": 0.845703125
+      },
+      "task_from_u": {
+        "task": "classification",
+        "n_classes": 40,
+        "n": 7520,
+        "train_acc": 0.03673537075519562,
+        "val_acc": 0.014627659693360329,
+        "majority_baseline": 0.09375,
+        "val_acc_above_chance": -0.07912234030663967
+      },
+      "object_from_e": {
+        "task": "classification",
+        "n_classes": 10,
+        "n": 1920,
+        "train_acc": 1.0,
+        "val_acc": 1.0,
+        "majority_baseline": 0.375,
+        "val_acc_above_chance": 0.625
+      },
+      "object_from_u": {
+        "task": "classification",
+        "n_classes": 10,
+        "n": 1880,
+        "train_acc": 0.14494681358337402,
+        "val_acc": 0.1356382966041565,
+        "majority_baseline": 0.375,
+        "val_acc_above_chance": -0.2393617033958435
+      },
+      "action_from_u": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.205178141593933,
+        "val_r2": -0.0238802433013916
+      },
+      "action_from_e_full": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 0.715347409248352,
+        "val_r2": 0.39226406812667847
+      },
+      "action_from_e_matched": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 1.1513230800628662,
+        "val_r2": 0.021873295307159424
+      },
+      "action_from_full_delta": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 0.9949418902397156,
+        "val_r2": 0.15472960472106934
+      },
+      "action_from_full_state": {
+        "task": "regression",
+        "out_dim": 7,
+        "n": 7520,
+        "val_mse_standardized": 0.19036732614040375,
+        "val_r2": 0.8382700681686401
+      },
+      "between_within_ratio": {
+        "env_mean": 63.5202522277832,
+        "action_mean": 0.0020611362997442484
+      },
+      "_disentanglement": {
+        "scene_e_minus_u_acc": 0.8146747350692749,
+        "task_e_minus_u_acc": 0.9248254653066397,
+        "action_u_minus_e_matched_r2": -0.045753538608551025
+      }
+    }
+  },
+  "notes": "frame-level features, clip-grouped splits"
+}

@@ -1,0 +1,119 @@
+{
+  "evidence_tier": "T4-retr",
+  "n_action_bins": 32,
+  "features": {
+    "cca_d4_chosen": {
+      "pair": {
+        "partial_corr_du_da_given_env": 0.7952179562647748,
+        "raw_corrs": {
+          "r_du_da": 0.796970212238242,
+          "r_du_env": -0.09056332725578405,
+          "r_da_env": -0.09488722927095486
+        },
+        "partial_corr_ci": [
+          0.7787709265075262,
+          0.8113996230199587
+        ],
+        "n_pairs": 172305
+      },
+      "retrieval_suite": {
+        "action_bin_recall_at_k": 0.46944444444444444,
+        "action_bin_recall_random": 0.06579861111111111,
+        "neighbor_env_diversity": 0.6246527777777777,
+        "neighbor_env_diversity_random": 0.7456597222222222,
+        "k": 5
+      },
+      "neighbor_task_diversity": 0.9348958333333334
+    },
+    "e_env": {
+      "pair": {
+        "partial_corr_du_da_given_env": 0.03316680137566884,
+        "raw_corrs": {
+          "r_du_da": 0.06175316732477794,
+          "r_du_env": -0.32129283281528676,
+          "r_da_env": -0.09488722927095486
+        },
+        "partial_corr_ci": [
+          -0.00021523556677358627,
+          0.06590694192072179
+        ],
+        "n_pairs": 172305
+      },
+      "retrieval_suite": {
+        "action_bin_recall_at_k": 0.2203125,
+        "action_bin_recall_random": 0.06579861111111111,
+        "neighbor_env_diversity": 0.29878472222222224,
+        "neighbor_env_diversity_random": 0.7456597222222222,
+        "k": 5
+      },
+      "neighbor_task_diversity": 0.6666666666666666
+    },
+    "full_h": {
+      "pair": {
+        "partial_corr_du_da_given_env": 0.6194105128039608,
+        "raw_corrs": {
+          "r_du_da": 0.6238372134948592,
+          "r_du_env": -0.14137490543022443,
+          "r_da_env": -0.09488722927095486
+        },
+        "partial_corr_ci": [
+          0.5927292568692332,
+          0.6433533732301029
+        ],
+        "n_pairs": 172305
+      },
+      "retrieval_suite": {
+        "action_bin_recall_at_k": 0.44027777777777777,
+        "action_bin_recall_random": 0.06579861111111111,
+        "neighbor_env_diversity": 0.4074652777777778,
+        "neighbor_env_diversity_random": 0.7456597222222222,
+        "k": 5
+      },
+      "neighbor_task_diversity": 0.8
+    }
+  },
+  "leave_task_out": {
+    "held_out_tasks": [
+      0,
+      7,
+      13,
+      14,
+      26,
+      20,
+      30,
+      35
+    ],
+    "n_train_clips": 87,
+    "n_eval_clips": 33,
+    "pair": {
+      "partial_corr_du_da_given_env": 0.8442462137292068,
+      "raw_corrs": {
+        "r_du_da": 0.844487919492688,
+        "r_du_env": -0.04737880728129091,
+        "r_da_env": -0.03790138543003477
+      },
+      "partial_corr_ci": [
+        0.8282481149375678,
+        0.859490625946502
+      ],
+      "n_pairs": 174317
+    },
+    "retrieval_task": {
+      "action_bin_recall_at_k": 0.4556818181818182,
+      "action_bin_recall_random": 0.06287878787878788,
+      "neighbor_env_diversity": 0.5933080808080808,
+      "neighbor_env_diversity_random": 0.8410353535353535,
+      "k": 5
+    }
+  },
+  "summary": {
+    "chosen_partial_corr_du_da_given_env": 0.7952179562647748,
+    "chosen_partial_corr_ci": [
+      0.7787709265075262,
+      0.8113996230199587
+    ],
+    "chosen_du_env_corr": -0.09056332725578405,
+    "lto_partial_corr": 0.8442462137292068,
+    "reading": "clean action u: partial corr(d_u,d_action|env) strongly positive (u-distance tracks action even within an environment), low d_u-env corr, action-bin recall@5 >> random, high neighbor env-diversity; holds under leave-task-out."
+  }
+}

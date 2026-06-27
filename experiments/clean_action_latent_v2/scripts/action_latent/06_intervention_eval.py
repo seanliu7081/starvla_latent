@@ -41,12 +41,39 @@ def main():
     iface = io.load_json(out0 / "interface_probe.json")["interface"]
     print(f"[phase6] interface = {iface}")
     if iface != "OK":
-        rec = {"interface": iface, "mode": "skipped_6A",
-               "note": "interface != OK -> projective tier-1 intervention unavailable; "
-                       "Phase 6B decoder-recombination (tier-2) would be the fallback."}
+        # 6A (projective tier-1 intervention into the FROZEN head) needs a clean,
+        # near-deterministic interface, which is unavailable here. Fall back to the
+        # interface-INDEPENDENT tier-2 decoder recombination (6B) — exactly as Phase 0
+        # prescribes for a DEGRADED interface. 6B trains a small a-hat=g(e,u) decoder
+        # and swaps u across frame pairs; it touches no frozen-head readout.
+        from action_latent import features as F  # noqa
+        rec = {"interface": iface, "mode": "skipped_6A_ran_6B", "any_causal_pass": False,
+               "evidence_tier": "T2-recomb (interface-degraded fallback)",
+               "note": "interface != OK -> projective tier-1 (6A) unavailable; ran tier-2 "
+                       "decoder-recombination (6B) as the Phase-0-prescribed fallback. T1 cannot "
+                       "be established for this checkpoint (caps verdict at B/C)."}
+        try:
+            shift = int(io.load_json(out0 / "alignment.json")["final_decision"]["final_shift"])
+            sm = io.load_json(out0 / "split_metadata.json")
+            split = {k: np.array(sm[f"{k}_idx"]) for k in ["train", "val", "test"]}
+            cache = io.load_global_cache(cfg)
+            sub = io.load_env_subspace(cfg, verify_against_h=cache["h_pooled"])
+            sp = torch.load(out / "phase2" / "linear_subspaces.pt", weights_only=False)
+            # chosen action code u in the env-removed standardized space (mirrors Phase 5)
+            h_res = F.remove_subspace(cache["h_pooled"], sub["W_env"], sub["mean"], sub["std"])
+            u_chosen = h_res @ sp["W_act_sup_chosen"]
+            rec["phase6B_decoder_recombination_T2"] = IV.decoder_recombination(
+                u_chosen, sub["e"], cache["actions"], split, shift, seed=seed, device=cfg.device)
+            print(f"[phase6B] swap_eA_uB_closer_to_B_frac="
+                  f"{rec['phase6B_decoder_recombination_T2']['swap_eA_uB_closer_to_B_frac']:.3f} "
+                  f"mse_to_aB={rec['phase6B_decoder_recombination_T2']['swap_eA_uB_mse_to_aB']:.4f} "
+                  f"mse_to_aA={rec['phase6B_decoder_recombination_T2']['swap_eA_uB_mse_to_aA']:.4f}")
+        except Exception as ex:  # 6B is best-effort; never mask the (legitimate) degraded result
+            rec["phase6B_error"] = repr(ex)
+            print(f"[phase6B] FAILED: {ex!r}")
         io.save_json(rec, out6 / "intervention.json")
         write_status(out, phase_reached="phase6", gates_passed=io.load_json(out/"STATUS.json")["gates_passed"],
-                     interface=iface, verdict=None, extra={"phase6": "skipped_6A"})
+                     interface=iface, verdict=None, extra={"phase6": rec["mode"]})
         return
 
     # ---- load frozen model + decode helper (reuse validated loader) ----

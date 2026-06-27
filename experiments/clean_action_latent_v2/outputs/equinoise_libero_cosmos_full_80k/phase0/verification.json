@@ -1,0 +1,63 @@
+{
+  "files_checked": {
+    "train.pt": {
+      "path": "/workspace/starvla_latent/experiments/tf_latent_disentanglement/outputs_equinoise80k/latent_cache/train.pt",
+      "exists": true
+    },
+    "val.pt": {
+      "path": "/workspace/starvla_latent/experiments/tf_latent_disentanglement/outputs_equinoise80k/latent_cache/val.pt",
+      "exists": true
+    },
+    "tokens.pt": {
+      "path": "/workspace/starvla_latent/experiments/tf_latent_disentanglement/outputs_equinoise80k/latent_cache/tokens.pt",
+      "exists": true
+    },
+    "h_subspace_decomposition.pt": {
+      "path": "/workspace/starvla_latent/experiments/tf_latent_disentanglement/outputs_equinoise80k/subspaces/h_subspace_decomposition.pt",
+      "exists": true
+    },
+    "previous_probe_results.json": {
+      "path": "/workspace/starvla_latent/experiments/tf_latent_disentanglement/outputs_equinoise80k/validation/probe_results.json",
+      "exists": true
+    },
+    "frozen_checkpoint.pt": {
+      "path": "/workspace/starvla_latent/playground/Checkpoints/equinoise_libero_cosmos_full/checkpoints/steps_80000_pytorch_model.pt",
+      "exists": true
+    }
+  },
+  "errors": [],
+  "shapes": {
+    "z_pooled": [
+      160,
+      48,
+      16
+    ],
+    "h_pooled": [
+      160,
+      48,
+      2048
+    ],
+    "actions": [
+      160,
+      48,
+      7
+    ],
+    "states": [
+      160,
+      48,
+      8
+    ]
+  },
+  "n_clips": 160,
+  "T": 48,
+  "h_finite": true,
+  "actions_finite": true,
+  "W_env_shape": [
+    2048,
+    128
+  ],
+  "env_coeff_reconstruct_max_abs_err": 0.0,
+  "env_dim": 128,
+  "inputs_valid": true,
+  "norm_stats_path": "/workspace/starvla_latent/experiments/clean_action_latent_v2/outputs/equinoise_libero_cosmos_full_80k/phase0/norm_stats.pt"
+}

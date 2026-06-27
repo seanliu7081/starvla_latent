@@ -1,0 +1,67 @@
+# Time-Frequency Latent Disentanglement — experiment config
+# Model: frozen WM4A CosmoPredict2GR00T (Cosmos-Predict2-2B DiT world model + GR00T head)
+# Data:  LIBERO 4-in-1 LeRobot (object / goal / spatial / 10), 20 fps
+
+experiment_name: tf_latent_disentanglement_equinoise80k
+seed: 42
+output_dir: experiments/tf_latent_disentanglement/outputs_equinoise80k
+device: cuda
+
+checkpoint:
+  # 14GB framework checkpoint (contains all backbone + action-head weights)
+  path: playground/Checkpoints/equinoise_libero_cosmos_full/checkpoints/steps_80000_pytorch_model.pt
+  sigma_data: 1.0          # validated by 00_resolve_sigma_data.py (action corr 0.853)
+
+data:
+  data_root: playground/Datasets/LEROBOT_LIBERO_DATA
+  suites: [libero_object, libero_goal, libero_spatial, libero_10]
+  fps: 20.0                 # LIBERO control rate (Nyquist = 10 Hz)
+  seq_len: 48               # frames per clip (2.4 s @ 20 fps)
+  stride: 1
+  n_clips: 160              # total clips across suites
+  clips_per_episode: 1
+  val_ratio: 0.25
+  load_wrist: false
+
+extraction:
+  # latent layers extracted from the frozen model
+  layers: [z, h]            # z = VAE latent (decodable); h = DiT last hidden (predictive)
+  frame_batch_size: 16      # frames processed per forward (memory/speed tradeoff)
+  n_token_clips: 12         # clips for which full spatial-token tensors are stored
+  store_tokens: true
+
+preprocessing:
+  standardize_latents: true
+  remove_per_video_temporal_mean: true
+
+frequency:
+  cutoff_hz: 2.0            # env (<=) vs action (>) split; swept in sensitivity analysis
+  high_cutoff_hz: 4.0       # STFT local action band
+  stft_n_fft: 16
+  stft_hop_length: 4
+  cutoff_sweep: [0.5, 1.0, 2.0, 3.0, 5.0]
+
+subspace:
+  env_dim_z: 8              # z has D=16 -> small env/act dims
+  act_dim_z: 4
+  env_dim_h: 128            # h has D=2048
+  act_dim_h: 16
+  eps: 0.0001
+  orthogonalize_action_against_env: true
+
+validation:
+  probe_train_ratio: 0.8
+  probe_epochs: 200
+  probe_lr: 0.001
+  probe_weight_decay: 0.0001
+  run_probes: true
+  run_ablation: true
+  run_swap: true
+  run_prediction_drop: true
+  n_swap_examples: 6
+
+labels:
+  has_real_actions: true    # LIBERO 7-D delta-EE actions
+  has_action_classes: false
+  has_scene_labels: true    # suite + task id
+  has_object_labels: true   # libero_object task == object identity

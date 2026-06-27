@@ -38,6 +38,11 @@ def main():
 
     gate2 = p2["gate2"]["passed"]
     causal_t1 = p6.get("any_causal_pass", False)
+    # T1 projective intervention (6A) is only available when the frozen-head
+    # interface is OK; on a DEGRADED interface Phase 6 runs the interface-independent
+    # tier-2 decoder recombination (6B) fallback instead, so `verdicts` may be absent.
+    t1_available = "verdicts" in p6
+    p6_verdicts = p6.get("verdicts", {})
     recomb = p6.get("phase6B_decoder_recombination_T2", {})
     t2_pass = recomb.get("swap_eA_uB_closer_to_B_frac", 0) > 0.6
     clean = (abs(p4["chosen_u_continuous_leak_r2"]) < 0.1 and p4["chosen_u_suite_above_chance"] < 0.05
@@ -48,12 +53,16 @@ def main():
     if iface == "OK" and gate2 and causal_t1 and clean and deconf:
         verdict, letter = "A", "A — Clean linear action subspace, causally verified (T1)."
     elif gate2 and clean and deconf and t2_pass:
+        t1_clause = ("the tier-1 projective intervention is UNAVAILABLE (the frozen-head action "
+                     "readout is too stochastic under this checkpoint's noise source for a clean "
+                     "interface — Phase 0 marked it DEGRADED)"
+                     if not t1_available else
+                     "the tier-1 intervention FAILS (action is redundantly distributed across h)")
         verdict, letter = "B", ("B — Clean, compact, LINEAR & projectable action latent IS recoverable "
                                 "(action-predictive with large gain over e, near-zero env leakage, "
                                 "action-specific under deconfounding & recombination), BUT it is NOT a "
-                                "causal bottleneck of the frozen head: the tier-1 intervention FAILS "
-                                "(action is redundantly distributed across h). Causal support limited to "
-                                "trained-decoder recombination (T2). Not A because no T1.")
+                                "causal bottleneck of the frozen head: " + t1_clause + ". "
+                                "Causal support limited to trained-decoder recombination (T2). Not A because no T1.")
     elif clean and not (deconf and gate2):
         verdict, letter = "C", "C — Conditional action latent only."
     else:
@@ -72,13 +81,22 @@ def main():
             "T3_correlational": {"gate2_passed": gate2, "chosen_r2": chosen["r2"] if chosen else None},
             "T3_leakage_clean": clean, "leakage": p4,
             "T4_retrieval": {"deconfounded": deconf, **p5},
-            "T1_causal_frozen_head": {"passed": causal_t1,
-                                      "cca4": p6["verdicts"]["cca4"], "pls16": p6["verdicts"]["pls16"]},
+            "T1_causal_frozen_head": {"passed": causal_t1, "available": t1_available,
+                                      "interface": iface,
+                                      "cca4": p6_verdicts.get("cca4"), "pls16": p6_verdicts.get("pls16")},
             "T2_decoder_recombination": recomb,
         },
         "tiers": {
-            "T1-causal": "FAIL — removing the action subspace does not degrade the frozen head (redundancy)",
-            "T2-recomb": f"PASS — recombination follows u ({recomb.get('swap_eA_uB_closer_to_B_frac',0):.2f})",
+            "T1-causal": ("UNAVAILABLE — frozen-head interface DEGRADED (stochastic readout); "
+                          "projective tier-1 intervention not run"
+                          if not t1_available else
+                          "PASS — removing the action subspace degrades the frozen head"
+                          if causal_t1 else
+                          "FAIL — removing the action subspace does not degrade the frozen head (redundancy)"),
+            "T2-recomb": (f"{'PASS' if t2_pass else 'FAIL'} — recombination "
+                          f"{'follows' if t2_pass else 'does NOT follow'} u "
+                          f"({recomb.get('swap_eA_uB_closer_to_B_frac',0):.2f})"
+                          if recomb else "n/a — tier-2 recombination not run"),
             "T3-corr": f"PASS — linear u predicts action (r2={chosen['r2']:.3f}) with gain over e; near-zero leakage" if chosen else "n/a",
             "T4-retr": f"PASS — partial corr(d_u,d_action|env)={p5['chosen_partial_corr_du_da_given_env']:.2f}, holds leave-task-out",
         },

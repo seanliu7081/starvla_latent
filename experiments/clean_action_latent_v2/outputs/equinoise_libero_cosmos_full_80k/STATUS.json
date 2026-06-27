@@ -1,0 +1,11 @@
+{
+  "phase_reached": "phase8",
+  "gates_passed": [
+    "GATE-0",
+    "GATE-1",
+    "GATE-2"
+  ],
+  "interface": "DEGRADED",
+  "verdict": "D",
+  "verdict_text": "D \u2014 No clean action latent."
+}

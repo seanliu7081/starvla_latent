@@ -1,0 +1,78 @@
+{
+  "fps": 20.0,
+  "seq_len": 48,
+  "stride": 1,
+  "n_clips": 160,
+  "n_train": 120,
+  "n_val": 40,
+  "layers": {
+    "z": {
+      "D": 16,
+      "grid": [
+        40,
+        72
+      ],
+      "desc": "VAE latent (spatial mean-pool); decodable"
+    },
+    "h": {
+      "D": 2048,
+      "grid": [
+        20,
+        36
+      ],
+      "desc": "DiT last hidden (token mean-pool); predictive"
+    }
+  },
+  "shapes": {
+    "z_pooled": [
+      160,
+      48,
+      16
+    ],
+    "h_pooled": [
+      160,
+      48,
+      2048
+    ],
+    "actions": [
+      160,
+      48,
+      7
+    ],
+    "states": [
+      160,
+      48,
+      8
+    ]
+  },
+  "n_token_clips": 12,
+  "suites": [
+    "libero_object",
+    "libero_goal",
+    "libero_spatial",
+    "libero_10"
+  ],
+  "sigma_data": 1.0,
+  "data_summary": {
+    "suites": [
+      "libero_object",
+      "libero_goal",
+      "libero_spatial",
+      "libero_10"
+    ],
+    "fps": 20.0,
+    "n_episodes": {
+      "libero_object": 454,
+      "libero_goal": 428,
+      "libero_spatial": 432,
+      "libero_10": 379
+    },
+    "n_tasks": {
+      "libero_object": 10,
+      "libero_goal": 10,
+      "libero_spatial": 10,
+      "libero_10": 10
+    },
+    "n_global_tasks": 40
+  }
+}

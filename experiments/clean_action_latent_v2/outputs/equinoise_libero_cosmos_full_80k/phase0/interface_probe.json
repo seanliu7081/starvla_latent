@@ -1,0 +1,34 @@
+{
+  "interface": "DEGRADED",
+  "head_consumes": "token_level_h [T, 720, 2048]",
+  "evidence": {
+    "baseline_readout_mse_mean": 0.007838617066024907,
+    "prior_reference_mse": 0.0138,
+    "baseline_matches_prior": false,
+    "edited_readout_mse_mean": 0.007581069405811529,
+    "edit_subspace_dim": 16,
+    "edit_is_random_subspace": true,
+    "mean_abs_pred_change_under_edit": 0.00248985891812481,
+    "determinism_max_abs_diff_across_seeds": 0.8832361102104187,
+    "n_token_clips_used": 12,
+    "n_seeds": 3,
+    "action_horizon": 8,
+    "readout_uses_state": false
+  },
+  "frozen_guard": {
+    "trainable_params": 0,
+    "training_mode": false
+  },
+  "frozen_head_alignment_check": {
+    "readout_mse_by_offset_k": {
+      "-1": 0.009234613621005413,
+      "0": 0.007520909199402446,
+      "1": 0.00855362729340218
+    },
+    "note": "pred[t,0] compared to actions[t+k]; k*=argmin",
+    "k_star": 0,
+    "implied_probe_shift_s": 0,
+    "interpretation": "frozen head's chunk-step-0 best matches actions[t+0]; equivalently hidden h_tau -> a_{tau+0}"
+  },
+  "evidence_ceiling": "max verdict B/C; Phase 6 falls back to decoder recombination (T2)"
+}

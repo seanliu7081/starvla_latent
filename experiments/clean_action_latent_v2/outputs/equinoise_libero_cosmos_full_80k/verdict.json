@@ -1,0 +1,67 @@
+{
+  "verdict": "D",
+  "verdict_text": "D \u2014 No clean action latent.",
+  "evidence_ceiling_from_interface": "DEGRADED",
+  "gates_passed": [
+    "GATE-0",
+    "GATE-1",
+    "GATE-2"
+  ],
+  "evidence": {
+    "alignment_shift": 0,
+    "shortcut_R2": 0.5533562297810914,
+    "ceiling_R2": 0.9451731572326691,
+    "gain_over_e_h_res": 0.3809625610287477,
+    "chosen_subspace": {
+      "method": "cca",
+      "d": 4,
+      "r2": 0.8888765384312368,
+      "gain": 0.33552030865014537,
+      "beats_baseline_by": 0.09438589094694583
+    },
+    "chosen_action_r2": 0.8888765384312368,
+    "T3_correlational": {
+      "gate2_passed": true,
+      "chosen_r2": 0.8888765384312368
+    },
+    "T3_leakage_clean": false,
+    "leakage": {
+      "chosen_u_continuous_leak_r2": -0.02349452693655585,
+      "full_h_continuous_leak_r2": 0.9992087900112908,
+      "chosen_u_suite_above_chance": 0.0842013888888889,
+      "chosen_u_task_above_chance": 0.0703125,
+      "chosen_u_leak_cond": -0.0763888888888889,
+      "reading": "clean if: u->e R^2 materially below full_h, discrete suite/task near chance, and leak_cond small. Defensible target is LOW CONDITIONAL leakage, not zero raw."
+    },
+    "T4_retrieval": {
+      "deconfounded": true,
+      "chosen_partial_corr_du_da_given_env": 0.7952179562647748,
+      "chosen_partial_corr_ci": [
+        0.7787709265075262,
+        0.8113996230199587
+      ],
+      "chosen_du_env_corr": -0.09056332725578405,
+      "lto_partial_corr": 0.8442462137292068,
+      "reading": "clean action u: partial corr(d_u,d_action|env) strongly positive (u-distance tracks action even within an environment), low d_u-env corr, action-bin recall@5 >> random, high neighbor env-diversity; holds under leave-task-out."
+    },
+    "T1_causal_frozen_head": {
+      "passed": false,
+      "available": false,
+      "interface": "DEGRADED",
+      "cca4": null,
+      "pls16": null
+    },
+    "T2_decoder_recombination": {
+      "swap_eA_uB_closer_to_B_frac": 0.8828125,
+      "swap_eA_uB_mse_to_aB": 0.04432878643274307,
+      "swap_eA_uB_mse_to_aA": 0.15298467874526978,
+      "reading": "if u is the action code, [e_A,u_B] follows action B: closer_to_B>>0.5 and mse_to_aB << mse_to_aA. Tests the trained decoder only (T2)."
+    }
+  },
+  "tiers": {
+    "T1-causal": "UNAVAILABLE \u2014 frozen-head interface DEGRADED (stochastic readout); projective tier-1 intervention not run",
+    "T2-recomb": "PASS \u2014 recombination follows u (0.88)",
+    "T3-corr": "PASS \u2014 linear u predicts action (r2=0.889) with gain over e; near-zero leakage",
+    "T4-retr": "PASS \u2014 partial corr(d_u,d_action|env)=0.80, holds leave-task-out"
+  }
+}

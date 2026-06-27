@@ -1,0 +1,314 @@
+{
+  "evidence_tier": "T3-corr",
+  "alignment_shift": 0,
+  "features": {
+    "cca_d4_chosen": {
+      "discrete_suite": {
+        "acc": 0.3342013888888889,
+        "majority_baseline": 0.25,
+        "balanced_acc": 0.3342013888888889,
+        "acc_above_chance": 0.0842013888888889,
+        "acc_ci": [
+          0.22827690972222223,
+          0.44273003472222217
+        ],
+        "n_classes": 4
+      },
+      "discrete_task": {
+        "acc": 0.0703125,
+        "majority_baseline": 0.0,
+        "balanced_acc": 0.07708333333333334,
+        "acc_above_chance": 0.0703125,
+        "acc_ci": [
+          0.013888888888888888,
+          0.14756944444444445
+        ],
+        "n_classes": 40
+      },
+      "continuous_u_to_e": {
+        "u_to_e_r2": -0.02349452693655585,
+        "u_to_e_r2_equal": -0.026537860576863047,
+        "u_to_e_r2_ci": [
+          -0.1141071607945234,
+          -0.028430296066054784
+        ]
+      },
+      "conditional_suite": {
+        "env_from_action_bin_acc": 0.4774305555555556,
+        "env_from_action_bin_plus_u_acc": 0.4010416666666667,
+        "leak_cond": -0.0763888888888889,
+        "n_action_bins": 32,
+        "n_env": 4
+      },
+      "discrete_object_subset": {
+        "acc": 0.125,
+        "majority_baseline": 0.0,
+        "balanced_acc": 0.125,
+        "acc_above_chance": 0.125,
+        "acc_ci": [
+          0.0,
+          0.3333333333333333
+        ],
+        "n_classes": 10
+      }
+    },
+    "pls_d16": {
+      "discrete_suite": {
+        "acc": 0.640625,
+        "majority_baseline": 0.25,
+        "balanced_acc": 0.640625,
+        "acc_above_chance": 0.390625,
+        "acc_ci": [
+          0.5381510416666666,
+          0.7300347222222222
+        ],
+        "n_classes": 4
+      },
+      "discrete_task": {
+        "acc": 0.2942708333333333,
+        "majority_baseline": 0.0,
+        "balanced_acc": 0.30364583333333334,
+        "acc_above_chance": 0.2942708333333333,
+        "acc_ci": [
+          0.1762152777777778,
+          0.42363281249999996
+        ],
+        "n_classes": 40
+      },
+      "continuous_u_to_e": {
+        "u_to_e_r2": 0.060102365137158054,
+        "u_to_e_r2_equal": 0.012219540590914887,
+        "u_to_e_r2_ci": [
+          -0.04762886191485108,
+          0.07377726709733134
+        ]
+      },
+      "conditional_suite": {
+        "env_from_action_bin_acc": 0.4774305555555556,
+        "env_from_action_bin_plus_u_acc": 0.6657986111111112,
+        "leak_cond": 0.18836805555555558,
+        "n_action_bins": 32,
+        "n_env": 4
+      },
+      "discrete_object_subset": {
+        "acc": 0.2013888888888889,
+        "majority_baseline": 0.0,
+        "balanced_acc": 0.20138888888888887,
+        "acc_above_chance": 0.2013888888888889,
+        "acc_ci": [
+          0.0,
+          0.4722222222222222
+        ],
+        "n_classes": 10
+      }
+    },
+    "random_d16": {
+      "discrete_suite": {
+        "acc": 0.4114583333333333,
+        "majority_baseline": 0.25,
+        "balanced_acc": 0.41145833333333337,
+        "acc_above_chance": 0.16145833333333331,
+        "acc_ci": [
+          0.3002387152777778,
+          0.5295572916666665
+        ],
+        "n_classes": 4
+      },
+      "discrete_task": {
+        "acc": 0.2907986111111111,
+        "majority_baseline": 0.0,
+        "balanced_acc": 0.284375,
+        "acc_above_chance": 0.2907986111111111,
+        "acc_ci": [
+          0.199609375,
+          0.3888888888888889
+        ],
+        "n_classes": 40
+      },
+      "continuous_u_to_e": {
+        "u_to_e_r2": 0.042956046866283626,
+        "u_to_e_r2_equal": -0.011952524771371454,
+        "u_to_e_r2_ci": [
+          -0.05829516899126712,
+          0.04821322919894708
+        ]
+      },
+      "conditional_suite": {
+        "env_from_action_bin_acc": 0.4774305555555556,
+        "env_from_action_bin_plus_u_acc": 0.5321180555555556,
+        "leak_cond": 0.0546875,
+        "n_action_bins": 32,
+        "n_env": 4
+      },
+      "discrete_object_subset": {
+        "acc": 0.3159722222222222,
+        "majority_baseline": 0.0,
+        "balanced_acc": 0.3159722222222222,
+        "acc_above_chance": 0.3159722222222222,
+        "acc_ci": [
+          0.041666666666666664,
+          0.6425347222222221
+        ],
+        "n_classes": 10
+      }
+    },
+    "full_h": {
+      "discrete_suite": {
+        "acc": 0.9487847222222222,
+        "majority_baseline": 0.25,
+        "balanced_acc": 0.9487847222222222,
+        "acc_above_chance": 0.6987847222222222,
+        "acc_ci": [
+          0.8784722222222222,
+          0.9982638888888888
+        ],
+        "n_classes": 4
+      },
+      "discrete_task": {
+        "acc": 0.8289930555555556,
+        "majority_baseline": 0.0,
+        "balanced_acc": 0.846875,
+        "acc_above_chance": 0.8289930555555556,
+        "acc_ci": [
+          0.6753472222222222,
+          0.9505208333333334
+        ],
+        "n_classes": 40
+      },
+      "continuous_u_to_e": {
+        "u_to_e_r2": 0.9992087900112908,
+        "u_to_e_r2_equal": 0.998278206102438,
+        "u_to_e_r2_ci": [
+          0.9985963171883402,
+          0.9995529998636091
+        ]
+      },
+      "conditional_suite": {
+        "env_from_action_bin_acc": 0.4774305555555556,
+        "env_from_action_bin_plus_u_acc": 0.9357638888888888,
+        "leak_cond": 0.45833333333333326,
+        "n_action_bins": 32,
+        "n_env": 4
+      },
+      "discrete_object_subset": {
+        "acc": 0.8888888888888888,
+        "majority_baseline": 0.0,
+        "balanced_acc": 0.8888888888888888,
+        "acc_above_chance": 0.8888888888888888,
+        "acc_ci": [
+          0.6979166666666666,
+          0.9965277777777778
+        ],
+        "n_classes": 10
+      }
+    },
+    "e_env_POSCTRL": {
+      "discrete_suite": {
+        "acc": 0.8654513888888888,
+        "majority_baseline": 0.25,
+        "balanced_acc": 0.8654513888888888,
+        "acc_above_chance": 0.6154513888888888,
+        "acc_ci": [
+          0.7361111111111112,
+          0.9696180555555556
+        ],
+        "n_classes": 4
+      },
+      "discrete_task": {
+        "acc": 0.8012152777777778,
+        "majority_baseline": 0.0,
+        "balanced_acc": 0.8114583333333334,
+        "acc_above_chance": 0.8012152777777778,
+        "acc_ci": [
+          0.6449435763888889,
+          0.9288194444444444
+        ],
+        "n_classes": 40
+      },
+      "continuous_u_to_e": {
+        "u_to_e_r2": 0.9999794644438638,
+        "u_to_e_r2_equal": 0.9999908830478569,
+        "u_to_e_r2_ci": [
+          0.9999506830232687,
+          0.9999972571081621
+        ]
+      },
+      "conditional_suite": {
+        "env_from_action_bin_acc": 0.4774305555555556,
+        "env_from_action_bin_plus_u_acc": 0.8984375,
+        "leak_cond": 0.4210069444444444,
+        "n_action_bins": 32,
+        "n_env": 4
+      },
+      "discrete_object_subset": {
+        "acc": 0.9340277777777778,
+        "majority_baseline": 0.0,
+        "balanced_acc": 0.9340277777777778,
+        "acc_above_chance": 0.9340277777777778,
+        "acc_ci": [
+          0.8576388888888888,
+          1.0
+        ],
+        "n_classes": 10
+      }
+    },
+    "prev_highfreq_u_NEGCTRL": {
+      "discrete_suite": {
+        "acc": 0.2404513888888889,
+        "majority_baseline": 0.25,
+        "balanced_acc": 0.2404513888888889,
+        "acc_above_chance": -0.009548611111111105,
+        "acc_ci": [
+          0.19791666666666666,
+          0.2855902777777778
+        ],
+        "n_classes": 4
+      },
+      "discrete_task": {
+        "acc": 0.029513888888888888,
+        "majority_baseline": 0.0,
+        "balanced_acc": 0.028645833333333332,
+        "acc_above_chance": 0.029513888888888888,
+        "acc_ci": [
+          0.015625,
+          0.04600694444444445
+        ],
+        "n_classes": 40
+      },
+      "continuous_u_to_e": {
+        "u_to_e_r2": -0.04083572079497433,
+        "u_to_e_r2_equal": -0.038412842398069094,
+        "u_to_e_r2_ci": [
+          -0.12789113776894834,
+          -0.05582987969318841
+        ]
+      },
+      "conditional_suite": {
+        "env_from_action_bin_acc": 0.4774305555555556,
+        "env_from_action_bin_plus_u_acc": 0.4713541666666667,
+        "leak_cond": -0.006076388888888895,
+        "n_action_bins": 32,
+        "n_env": 4
+      },
+      "discrete_object_subset": {
+        "acc": 0.10069444444444445,
+        "majority_baseline": 0.0,
+        "balanced_acc": 0.10069444444444443,
+        "acc_above_chance": 0.10069444444444445,
+        "acc_ci": [
+          0.0,
+          0.3020833333333333
+        ],
+        "n_classes": 10
+      }
+    }
+  },
+  "summary": {
+    "chosen_u_continuous_leak_r2": -0.02349452693655585,
+    "full_h_continuous_leak_r2": 0.9992087900112908,
+    "chosen_u_suite_above_chance": 0.0842013888888889,
+    "chosen_u_task_above_chance": 0.0703125,
+    "chosen_u_leak_cond": -0.0763888888888889,
+    "reading": "clean if: u->e R^2 materially below full_h, discrete suite/task near chance, and leak_cond small. Defensible target is LOW CONDITIONAL leakage, not zero raw."
+  }
+}

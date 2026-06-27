@@ -1,0 +1,14 @@
+{
+  "conditional": "Phase 7 is gated on pooled action signal being WEAK.",
+  "pooled_h_action_r2": 0.9346302761651082,
+  "pooled_signal_strong": true,
+  "decision": "pooled signal STRONG -> token-level not required to recover action; running an exploratory motion-pool check only (12 clips, small N).",
+  "evidence_tier": "T3-corr (exploratory)",
+  "motion_pool_check": {
+    "n_token_clips": 12,
+    "topk_moving_tokens": 72,
+    "action_r2_mean_all": 0.9001232447860744,
+    "action_r2_topk_moving": 0.8573007855069673,
+    "note": "small-N exploratory; both ~ pooled ceiling -> mean-pool already captures the action."
+  }
+}

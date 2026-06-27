@@ -1,0 +1,95 @@
+# Clean Action Latent — v2 experiment config
+# Post-hoc analysis of a FROZEN World-Action Model (WM4A CosmoPredict2GR00T).
+# See clean_action_latent_CLAUDE_CODE_plan.md (§5 template). Paths that are not
+# absolute are resolved relative to the starVLA repo root by src/action_latent/io.py.
+
+experiment_name: clean_action_latent_equinoise80k
+seed: 42
+output_dir: experiments/clean_action_latent_v2/outputs/equinoise_libero_cosmos_full_80k
+device: cuda
+precision: float32
+
+frozen_model:
+  checkpoint_path: playground/Checkpoints/equinoise_libero_cosmos_full/checkpoints/steps_80000_pytorch_model.pt
+  sigma_data: 1.0              # validated in prior experiment (action corr 0.853)
+  update_weights: false        # PRIME DIRECTIVE 1 — never trained / never train-mode
+  # the prior experiment provides the validated frozen-model loader we reuse:
+  loader_experiment_dir: experiments/tf_latent_disentanglement
+
+inputs:
+  # Prior experiment artifacts (the plan's outputs/tf_latent_disentanglement_v1/*).
+  latent_cache_dir: experiments/tf_latent_disentanglement/outputs_equinoise80k/latent_cache
+  subspace_dir: experiments/tf_latent_disentanglement/outputs_equinoise80k/subspaces
+  previous_validation_dir: experiments/tf_latent_disentanglement/outputs_equinoise80k/validation
+  # token-level h is cached only for n_token_clips (used by interface probe + Phase 7)
+  token_cache: experiments/tf_latent_disentanglement/outputs_equinoise80k/latent_cache/tokens.pt
+
+splits:
+  mode: clip_grouped
+  group_key: episode_uid       # all 160 unique -> row-level split is clip-grouped
+  stratify_key: suite_id       # keep the 4 suites balanced across splits
+  train: 0.70
+  val: 0.15
+  test: 0.15
+
+alignment:
+  mode: auto                   # resolved empirically in Phase 0 (00_verify_probe_align)
+  candidate_shifts: [-1, 0, 1] # a_t read from h_{t+shift}; shift=0 is the head's convention
+
+features:
+  primary: auto                # 'h_res' or 'h_full', decided by GATE-1
+  standardize_train_only: true
+  use_delta: true
+
+env_subspace:
+  # inherited frozen artifact from the prior frequency decomposition
+  file: h_subspace_decomposition.pt
+  W_env_key: W_env             # [2048, 128]
+  e_key: e                     # [160, 48, 128]  (env coeffs, = W_env^T standardized-h)
+  mean_key: mean
+  std_key: std
+  highfreq_W_act_key: W_act    # [2048, 16] previous high-freq subspace (negative control)
+  highfreq_u_key: u            # [160, 47, 16]
+
+latent: {dims: [4, 8, 16, 32, 64], preferred: 16}
+
+linear: {methods: [pls, rrr, cca], ridge_lambdas: [1.0, 10.0, 100.0, 1000.0, 10000.0]}
+
+mlp_ceiling:
+  hidden_dim: 512
+  dropout: 0.1
+  epochs: 200
+  lr: 3.0e-4
+  weight_decay: 1.0e-4
+  batch_size: 1024
+  early_stopping_patience: 15
+
+bottleneck:                    # Phase 3 (not run in M1)
+  hidden_dim: 512
+  dropout: 0.1
+  epochs: 100
+  lr: 3.0e-4
+  weight_decay: 1.0e-4
+  early_stopping_patience: 10
+
+action_binning: {position_metric: euclidean, rotation_metric: angular, gripper: separate, k: 32}
+
+eval:
+  bootstrap_ci: true
+  bootstrap_n: 1000
+  bootstrap_unit: clip         # resample test CLIPS (small N ~24), never frames
+  leave_task_out_retrieval: true
+
+gates:
+  gate1_shortcut_fraction_for_CD: 0.85   # shortcut_R2/ceiling_R2 above this -> verdict drops to C/D
+  gate1_hres_retains_min: 0.50           # hres_retains below this -> switch primary feature to h_full
+  gate2_action_fraction_of_ceiling: 0.70
+  gate2_max_dim: 32
+
+interface_probe:
+  n_token_clips: 12            # token-h is cached for this many clips
+  edit_subspace_dim: 16        # zero out a random 16-dim subspace of h as the edit
+  n_seeds: 3                   # average the (possibly stochastic) flow-matching readout
+
+baselines: [mean, e_only, task_onehot, object_onehot, full_h_linear, full_h_mlp,
+            h_res_linear, previous_highfreq_u, random_projection, pca_h, pca_delta_h, pls]
