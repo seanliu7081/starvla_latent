@@ -49,6 +49,7 @@ run "v2-05-retrieval"    "$LOG/v2_05.log" $PY $V2/scripts/action_latent/05_pair_
 run "v2-06-intervention" "$LOG/v2_06.log" $PY $V2/scripts/action_latent/06_intervention_eval.py     --config $V2CFG
 run "v2-07-token"        "$LOG/v2_07.log" $PY $V2/scripts/action_latent/07_token_action.py          --config $V2CFG
 run "v2-08-report"       "$LOG/v2_08.log" $PY $V2/scripts/action_latent/08_make_report.py           --config $V2CFG
+run "v2-08b-report-md"   "$LOG/v2_08b.log" $PY $V2/scripts/action_latent/08b_make_report_md.py        --config $V2CFG
 
 echo "==================================================================="
 echo "[$(date +%H:%M:%S)] PIPELINE COMPLETE"
